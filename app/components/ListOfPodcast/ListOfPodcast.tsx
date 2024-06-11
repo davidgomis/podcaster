@@ -1,17 +1,30 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { Podcast } from "../Podcast/Podcast";
+import { Podcast as PodcastType } from "../../types/types";
+
 import "./listOfPodcast.scss";
 
-const fetchPodcast = () => {
-  return fetch(
-    "https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json"
-  ).then((res) => res.json());
-};
+export function ListOfPodcast() {
+  const [podcasts, setPodcasts] = useState<PodcastType[]>([]);
 
-export async function ListOfPodcast() {
-  const podcast = await fetchPodcast();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("api/podcast");
+        const data = await response.json();
+        setPodcasts(data.feed.entry);
+      } catch (error) {
+        console.error("Error fetching podcasts:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <div className="podcast-list">
-      <Podcast podcast={podcast.feed.entry} />
+      <Podcast podcast={podcasts} />
     </div>
   );
 }
