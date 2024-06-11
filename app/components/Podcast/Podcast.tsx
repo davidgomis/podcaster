@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Podcast as PodcastType } from "../../types/types";
-import styles from "./navigation.module.css";
+
 import "./podcast.scss";
 
 interface PodcastProps {

@@ -8,6 +8,7 @@ import "./listOfPodcast.scss";
 
 export function ListOfPodcast() {
   const [podcasts, setPodcasts] = useState<PodcastType[]>([]);
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,9 +23,31 @@ export function ListOfPodcast() {
 
     fetchData();
   }, []);
+
+  const filteredPodcasts = podcasts.filter((podcast) => {
+    return (
+      podcast["im:name"].label
+        .toLowerCase()
+        .includes(searchText.toLowerCase()) ||
+      podcast["im:artist"].label
+        .toLowerCase()
+        .includes(searchText.toLowerCase())
+    );
+  });
   return (
-    <div className="podcast-list">
-      <Podcast podcast={podcasts} />
-    </div>
+    <>
+      <div className="podcast-searcher">
+        <p className="podcast-searcher__counter">{filteredPodcasts.length}</p>
+        <input
+          type="text"
+          placeholder="Filter podcast..."
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+        />
+      </div>
+      <div className="podcast-list">
+        <Podcast podcast={filteredPodcasts} />
+      </div>
+    </>
   );
 }
