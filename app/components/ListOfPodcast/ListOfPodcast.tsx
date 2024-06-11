@@ -1,6 +1,5 @@
-import Link from "next/link";
-import { Podcast as PodcastType } from "../../types/types";
 import { Podcast } from "../Podcast/Podcast";
+import "./listOfPodcast.scss";
 
 const fetchPodcast = () => {
   return fetch(
@@ -10,5 +9,9 @@ const fetchPodcast = () => {
 
 export async function ListOfPodcast() {
   const podcast = await fetchPodcast();
-  return <Podcast podcast={podcast.feed.entry} />;
+  return (
+    <div className="podcast-list">
+      <Podcast podcast={podcast.feed.entry} />
+    </div>
+  );
 }
