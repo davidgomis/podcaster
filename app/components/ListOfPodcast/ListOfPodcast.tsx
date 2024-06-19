@@ -3,12 +3,14 @@
 import { useEffect, useState } from "react";
 import { Podcast } from "../Podcast/Podcast";
 import { Podcast as PodcastType } from "../../types/types";
+import { usePodcastContext } from "../../context/PodcastContext";
 
 import "./listOfPodcast.scss";
 
 export function ListOfPodcast() {
   const [podcasts, setPodcasts] = useState<PodcastType[]>([]);
   const [searchText, setSearchText] = useState("");
+  const { setData } = usePodcastContext();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,12 +18,14 @@ export function ListOfPodcast() {
         const response = await fetch("api/podcast");
         const data = await response.json();
         setPodcasts(data.feed.entry);
+        setData(data.feed.entry);
       } catch (error) {
         console.error("Error fetching podcasts:", error);
       }
     };
 
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const filteredPodcasts = podcasts.filter((podcast) => {

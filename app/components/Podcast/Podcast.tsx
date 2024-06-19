@@ -11,7 +11,7 @@ interface PodcastProps {
 export const Podcast: React.FC<PodcastProps> = ({ podcast }) => {
   return podcast.map((item: PodcastType) => (
     <figure className="podcast" key={item.id.attributes["im:id"]}>
-      <Link href="/posts/[id]" as={`/posts/${item.id}`}>
+      <Link href={`/podcast/${item.id.attributes["im:id"]}`}>
         <Image
           src={item["im:image"][2]?.label}
           alt="Vercel Logo"

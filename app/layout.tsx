@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.scss";
+import Link from "next/link";
+import { PodcastProvider } from "./context/PodcastContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,13 +17,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <header>
-          <h4>Podcaster</h4>
-        </header>
-        {children}
-      </body>
-    </html>
+    <PodcastProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          <header>
+            <Link href="/">
+              <h4>Podcaster</h4>
+            </Link>
+          </header>
+          {children}
+        </body>
+      </html>
+    </PodcastProvider>
   );
 }
